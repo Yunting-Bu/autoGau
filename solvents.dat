@@ -1,0 +1,84 @@
+Water:                    eps  =78.3553  2-Heptanone:                  eps  =11.658  HexanoicAcid:                     eps  =2.6
+Acetonitrile:             eps  =35.688   2-Hexanone:                   eps  =14.136  IodoBenzene:                      eps  =4.5470
+Methanol:                 eps  =32.613   2-MethoxyEthanol:             eps  =17.2    IodoEthane:                       eps  =7.6177
+Ethanol:                  eps  =24.852   2-Methyl-1-Propanol:          eps  =16.777  IodoMethane:                      eps  =6.8650
+IsoQuinoline:             eps  =11.00    2-Methyl-2-Propanol:          eps  =12.47   IsoPropylBenzene:                 eps  =2.3712
+Quinoline:                eps  =9.16     2-MethylPentane:              eps  =1.89    m-Cresol:                         eps  =12.44
+Chloroform:               eps  =4.7113   2-MethylPyridine:             eps  =9.9533  Mesitylene:                       eps  =2.2650
+DiethylEther:             eps  =4.2400   2-NitroPropane:               eps  =25.654  MethylBenzoate:                   eps  =6.7367
+Dichloromethane:          eps  =8.93     2-Octanone:                   eps  =9.4678  MethylButanoate:                  eps  =5.5607
+DiChloroEthane:           eps  =10.125   2-Pentanone:                  eps  =15.200  MethylCycloHexane:                eps  =2.024
+CarbonTetraChloride:      eps  =2.2280   2-Propanol:                   eps  =19.264  MethylEthanoate:                  eps  =6.8615
+Benzene:                  eps  =2.2706   2-Propen-1-ol:                eps  =19.011  MethylMethanoate:                 eps  =8.8377
+Toluene:                  eps  =2.3741   3-MethylPyridine:             eps  =11.645  MethylPropanoate:                 eps  =6.0777
+ChloroBenzene:            eps  =5.6968   3-Pentanone:                  eps  =16.78   m-Xylene:                         eps  =2.3478
+NitroMethane:             eps  =36.562   4-Heptanone:                  eps  =12.257  n-ButylBenzene:                   eps  =2.36
+Heptane:                  eps  =1.9113   4-Methyl-2-Pentanone:         eps  =12.887  n-Decane:                         eps  =1.9846
+CycloHexane:              eps  =2.0165   4-MethylPyridine:             eps  =11.957  n-Dodecane:                       eps  =2.0060
+Aniline:                  eps  =6.8882   5-Nonanone:                   eps  =10.6    n-Hexadecane:                     eps  =2.0402
+Acetone:                  eps  =20.493   AceticAcid:                   eps  =6.2528  n-Hexane:                         eps  =1.8819
+TetraHydroFuran:          eps  =7.4257   AcetoPhenone:                 eps  =17.44   NitroBenzene:                     eps  =34.809
+DiMethylSulfoxide:        eps  =46.826   a-ChloroToluene:              eps  =6.7175  NitroEthane:                      eps  =28.29
+Argon:                    eps  =1.430    Anisole:                      eps  =4.2247  n-MethylAniline:                  eps  =5.9600
+Krypton:                  eps  =1.519    Benzaldehyde:                 eps  =18.220  n-MethylFormamide-mixture:        eps  =181.56
+Xenon:                    eps  =1.706    BenzoNitrile:                 eps  =25.592  n,n-DiMethylAcetamide:            eps  =37.781
+n-Octanol:                eps  =9.8629   BenzylAlcohol:                eps  =12.457  n,n-DiMethylFormamide:            eps  =37.219
+1,1,1-TriChloroEthane:    eps  =7.0826   BromoBenzene:                 eps  =5.3954  n-Nonane:                         eps  =1.9605
+1,1,2-TriChloroEthane:    eps  =7.1937   BromoEthane:                  eps  =9.01    n-Octane:                         eps  =1.9406
+1,2,4-TriMethylBenzene:   eps  =2.3653   Bromoform:                    eps  =4.2488  n-Pentadecane:                    eps  =2.0333
+1,2-DiBromoEthane:        eps  =4.9313   Butanal:                      eps  =13.45   n-Pentane:                        eps  =1.8371
+1,2-EthaneDiol:           eps  =40.245   ButanoicAcid:                 eps  =2.9931  n-Undecane:                       eps  =1.9910
+1,4-Dioxane:              eps  =2.2099   Butanone:                     eps  =18.246  o-ChloroToluene:                  eps  =4.6331
+1-Bromo-2-MethylPropane:  eps  =7.7792   ButanoNitrile:                eps  =24.291  o-Cresol:                         eps  =6.76
+1-BromoOctane:            eps  =5.0244   ButylAmine:                   eps  =4.6178  o-DiChloroBenzene:                eps  =9.9949
+1-BromoPentane:           eps  =6.269    ButylEthanoate:               eps  =4.9941  o-NitroToluene:                   eps  =25.669
+1-BromoPropane:           eps  =8.0496   CarbonDiSulfide:              eps  =2.6105  o-Xylene:                         eps  =2.5454
+1-Butanol:                eps  =17.332   Cis-1,2-DiMethylCycloHexane:  eps  =2.06    Pentanal:                         eps  =10.0
+1-ChloroHexane:           eps  =5.9491   Cis-Decalin:                  eps  =2.2139  PentanoicAcid:                    eps  =2.6924
+1-ChloroPentane:          eps  =6.5022   CycloHexanone:                eps  =15.619  PentylAmine:                      eps  =4.2010
+1-ChloroPropane:          eps  =8.3548   CycloPentane:                 eps  =1.9608  PentylEthanoate:                  eps  =4.7297
+1-Decanol:                eps  =7.5305   CycloPentanol:                eps  =16.989  PerFluoroBenzene:                 eps  =2.029
+1-FluoroOctane:           eps  =3.89     CycloPentanone:               eps  =13.58   p-IsoPropylToluene:               eps  =2.2322
+1-Heptanol:               eps  =11.321   Decalin-mixture:              eps  =2.196   Propanal:                         eps  =18.5
+1-Hexanol:                eps  =12.51    DiBromomEthane:               eps  =7.2273  PropanoicAcid:                    eps  =3.44
+1-Hexene:                 eps  =2.0717   DiButylEther:                 eps  =3.0473  PropanoNitrile:                   eps  =29.324
+1-Hexyne:                 eps  =2.615    DiEthylAmine:                 eps  =3.5766  PropylAmine:                      eps  =4.9912
+1-IodoButane:             eps  =6.173    DiEthylSulfide:               eps  =5.723   PropylEthanoate:                  eps  =5.5205
+1-IodoHexaDecane:         eps  =3.5338   DiIodoMethane:                eps  =5.32    p-Xylene:                         eps  =2.2705
+1-IodoPentane:            eps  =5.6973   DiIsoPropylEther:             eps  =3.38    Pyridine:                         eps  =12.978
+1-IodoPropane:            eps  =6.9626   DiMethylDiSulfide:            eps  =9.6     sec-ButylBenzene:                 eps  =2.3446
+1-NitroPropane:           eps  =23.73    DiPhenylEther:                eps  =3.73    tert-ButylBenzene:                eps  =2.3447
+1-Nonanol:                eps  =8.5991   DiPropylAmine:                eps  =2.9112  TetraChloroEthene:                eps  =2.268
+1-Pentanol:               eps  =15.13    e-1,2-DiChloroEthene:         eps  =2.14    TetraHydroThiophene-s,s-dioxide:  eps  =43.962
+1-Pentene:                eps  =1.9905   e-2-Pentene:                  eps  =2.051   Tetralin:                         eps  =2.771
+1-Propanol:               eps  =20.524   EthaneThiol:                  eps  =6.667   Thiophene:                        eps  =2.7270
+2,2,2-TriFluoroEthanol:   eps  =26.726   EthylBenzene:                 eps  =2.4339  Thiophenol:                       eps  =4.2728
+2,2,4-TriMethylPentane:   eps  =1.9358   EthylEthanoate:               eps  =5.9867  trans-Decalin:                    eps  =2.1781
+2,4-DiMethylPentane:      eps  =1.8939   EthylMethanoate:              eps  =8.3310  TriButylPhosphate:                eps  =8.1781
+2,4-DiMethylPyridine:     eps  =9.4176   EthylPhenylEther:             eps  =4.1797  TriChloroEthene:                  eps  =3.422
+2,6-DiMethylPyridine:     eps  =7.1735   FluoroBenzene:                eps  =5.42    TriEthylAmine:                    eps  =2.3832
+2-BromoPropane:           eps  =9.3610   Formamide:                    eps  =108.94  Xylene-mixture:                   eps  =2.3879
+2-Butanol:                eps  =15.944   FormicAcid:                   eps  =51.1    z-1,2-DiChloroEthene:             eps  =9.2
+2-ChloroButane:           eps  =8.3930                                                                                      
+
+-------------------------------------------------------------------------------------------------------------------------------------
+Water                                =H2O
+Acetonitrile                         =CH3CN
+Methanol                             =CH3OH
+Ethanol                              =CH3CH2OH
+DiethylEther    =Ethylether          =Ether
+Dichloromethane =MethyleneChloride   =CH2Cl2
+DiChloroEthane  =1,2-DiChloroEthane  =CH2ClCH2Cl
+CarbonTetraChloride                  =CCl4
+Benzene                              =C6H6
+Toluene                              =C6H5CH3
+ChloroBenzene                        =C6H5Cl
+NitroMethane                         =CH3NO2
+Heptane                              =n-Heptane
+CycloHexane                          =C6H12
+Aniline                              =C6H5NH2
+Acetone                              =CH3COCH3
+TetraHydroFuran                      =THF
+DiMethylSulfoxide                    =DMSO
+n-Octanol                            =1-Octanol
+-------------------------------------------------------------------------------------------------------------------------------------
