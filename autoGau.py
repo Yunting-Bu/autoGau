@@ -1,7 +1,8 @@
 import os
 import numpy as np
-basis_path = os.path.abspath('basis')
-sol_path = os.path.abspath('solvents.dat')
+script_dir = os.path.dirname(os.path.abspath(__file__))
+basis_path = os.path.abspath(os.path.join(script_dir, '.', 'basis'))
+sol_path = os.path.abspath(os.path.join(script_dir, '.', 'solvents.dat'))
 ECP_basis = ["Aug-cc-pVDZ-PP","Aug-cc-pVTZ-PP","Aug-cc-pVQZ-PP","cc-pVDZ-PP","cc-pVTZ-PP","cc-pVQZ-PP",\
              "LanL2MB","LanL2DZ","LanL2TZ","LanL2TZ(f)",\
              "SDD","SDDAll"]
@@ -29,6 +30,7 @@ def read_xyz(filename):
 #-------------------------------------------------------------------------------
 # get the %mem and %nproc
 def get_mem_nproc():
+    print("\n----------%mem and %nproc----------\n")
     nproc = input("Please enter the shared processors(eg. 24): ")
     mem = input("Please enter the memory(eg. 30GB, if you input ENTER, the memory will be the same as nproc with GB): ")
     if (mem == ''):
@@ -101,12 +103,14 @@ Dist(NSteps={Nsteps},StepSize={stepsize})=(NA*X4+NB*Y4+NC*Z4+ND)/SQRT(NA**2+NB**
 #-------------------------------------------------------------------------------
 # get job type keywords
 def get_opt_keyw():
+    print("\n===== opt =====\n")
     opt_dict = {1:"",2:",TS,calcfc,noeigen",3:"ModRedundant",4:"GIC", \
                 5:"calcfc",6:"calcall",7:"recalc=",\
                 8:"cartesian",9:"Z-Matrix",10:"Redundant",11:"maxstep",12:"maxcycle",
                 13:"NoTrust",14:"GDISS",15:"GEDISS",16:"RFO",\
-                17:"VeryTight",18:"Tight",19:"Loose"}
+                17:"VeryTight",18:"Tight",19:"Loose",20:"ReadOpt"}
     keynum = []
+    print("MUST CHOOSE 1 OR 2!!!!!!")
     print("1.Minimum        2.TS(with calcfc and noigen)")
     print("3.ModRedundant   4.GIC(g16)")
     print("5.calcfc         6.calcall           7.recalc=N")
@@ -114,6 +118,7 @@ def get_opt_keyw():
     print("11.maxstep       12.maxcycle         13.NoTrust")
     print("14.GDISS         15.GEDIIS(Default)  16.RFO")
     print("17.VeryTight     18.Tight            19.Loose")
+    print("20.ReadOpt")
 
     opt_input = input("Enter number(SPACE split): ")
     keynum = list(map(int,opt_input.split()))
@@ -138,6 +143,11 @@ def get_opt_keyw():
     if 7 in keynum:
         M = input("Recalculate force constants every nth point, n = :")
         opt_dict[7] = "recalc=" + str(M)
+    if 20 in keynum:
+        print("Enter the information you need!")
+        print("eg: noatoms atoms=5-70 notatoms=N,O, means only atoms 5-70 are optimized except N, O.")
+        info = str(input())
+        opt_other = f"read{info}\n"
     if len(keynum) == 1 and keynum[0] != 2:
         job_keyw = 'opt='+opt_dict[keynum[0]]
     if len(keynum) == 1 and keynum[0] == 1:
@@ -153,6 +163,7 @@ def get_opt_keyw():
     return job_keyw,opt_other
     
 def get_freq_keyw():
+    print("\n===== freq =====\n")
     freq_dict = {1:"raman",2:"VCD",3:"ROA",\
                 4:"anharmonic",5:"projected",6:"Numerical",7:"DoubleNumer",8:"Cubic",\
                 9:"VibRot",10:"SaveNM",11:"HPModes",12:"IntModes"}
@@ -161,7 +172,7 @@ def get_freq_keyw():
     print("4.Anharmonic corrections              5.Compute projected frequencies")
     print("6.Numerical       7.DoubleNumer       8.Cubic")
     print("9.vibrational-rotational              10.Save Normal Modes")
-    print("11.HP Modes       12.Interna lModes   13.No more keywords")
+    print("11.HP Modes       12.Internal Modes   13.No more keywords")
     freq_input = input("Enter number(SPACE split): ")
     keynum = list(map(int,freq_input.split()))
     if len(keynum) == 1 and 13 not in keynum:
@@ -177,6 +188,7 @@ def get_freq_keyw():
     return job_keyw
 
 def get_IRC_keyw():
+    print("\n===== IRC =====\n")
     IRC_dict = {1:"forword",2:"reverse",\
                 3:"calcfc",4:"calcall",\
                 5:"maxpoint = ",6:"recalc = ",\
@@ -205,6 +217,7 @@ def get_IRC_keyw():
     return job_keyw
 
 def get_NMR_keyw():
+    print("\n===== NMR =====\n")
     NMR_dict = {1:"GIAO",2:"CSGT",3:"IGAIM",4:"All",\
                 5:"spinspin",6:"mixed"}
     print("1.GIAO     2.CSGT     3.IGAIM     4.Compute properties with all methods")
@@ -223,6 +236,7 @@ def get_NMR_keyw():
     return job_keyw
 
 def get_stable_keyw():
+    print("\n===== stable =====\n")
     print("1.Reoptimize the wavefunction   2.No more keywords")
     keynum = int(input())
     if keynum == 1:
@@ -232,11 +246,12 @@ def get_stable_keyw():
     return job_keyw
 
 # get the job type
-def get_job_type():
+def get_job_type(xyz_name):
+    print("\n----------Job Type----------\n")
     print("1.Energy(sp)          2.Optimiztion(opt)")
     print("3.Frequency(freq)     4.opt+freq")
-    print("5.IRC                 6.Scan")
-    print("7.NMR                 8.Stability(stable)")
+    print("5.IRC                 6.NMR")
+    print("7.Stability(stable)   ")
     job_type = input()
     job_keyw = ''
     if job_type == "1":
@@ -248,17 +263,16 @@ def get_job_type():
         job_keyw = get_freq_keyw()
         job_other = "NO"
     elif job_type == "4":
-        job_opt_keyw = get_opt_keyw()
+        job_opt_keyw,job_other = get_opt_keyw()
         job_freq_keyw = get_freq_keyw()
-        job_keyw = job_opt_keyw +job_freq_keyw
-        job_other = "NO"
+        job_keyw = f"{job_opt_keyw} {job_freq_keyw}"
     elif job_type == "5":
         job_keyw = get_IRC_keyw()
         job_other = "NO"
-    elif job_type == "7":
+    elif job_type == "6":
         job_keyw = get_NMR_keyw()
         job_other = "NO"
-    elif job_type == "8":
+    elif job_type == "7":
         job_keyw = get_stable_keyw()
         job_other = "NO"
     return job_keyw,job_other
@@ -267,6 +281,7 @@ def get_job_type():
 #-------------------------------------------------------------------------------
 # get method
 def get_semi_keyw():
+    print("\n=====Semi-empirical=====\n")
     semi_dict={1:"AM1",2:"PM3",3:"PM3MM",4:"PM6",5:"PM7",\
                6:"PDDG",7:"INDO",8:"CNDO",\
                9:"MNDO",10:"MINDO3",11:"ZIndo"}
@@ -301,10 +316,12 @@ def get_semi_keyw():
     return method_keyw
 
 def get_HF_postHF_keyw():
+    print("\n=====HF and post-HF=====\n")
     print("1.Hartree-Fock(HF)                2.Møller-Plesset(MPn)")
     print("3.Configuration Interaction(CI)   4.Coupled Cluster(CC)")
     HF_num = int(input())
     if HF_num == 1:
+        print("\n***** HF *****\n")
         TDyn = str(input("TD-HF?(y/n): "))
         if TDyn == "y":
             TDAyn = str(input("Employ the Tamm-Dancoff approximation(TDA)?(y/n): "))
@@ -337,6 +354,7 @@ def get_HF_postHF_keyw():
         method_keyw = f"HF{TD_keyw}" 
 
     elif HF_num == 2:
+        print("\n***** MPn *****\n")
         print("1.MP2       2.MP3        3.MP4(Default MP4(SDTQ))")
         print("4.MP4(DQ)   5.MP4(SDQ)   6.MP5")
         print("7.SCS-MP2   8.SCSN-MP2   9.SCS-MP3")
@@ -358,6 +376,7 @@ def get_HF_postHF_keyw():
         else:
             method_keyw = MP_dict[n]
     elif HF_num == 3:
+        print("\n***** CI *****\n")
         print("1.CIS   2.CIS(D)  3.CID   4.CISD   5.QCI")
         CI = int(input())
         CI_dict = {1:"CIS",2:"CIS(D)",3:"CID",4:"CISD",5:"QCISD"}
@@ -410,6 +429,7 @@ def get_HF_postHF_keyw():
                 QCI_keyw = QCI_keyw[:-1]
                 method_keyw = CI_dict[CI]+QCI_keyw +")"
     elif HF_num == 4:
+        print("\n***** CC *****\n")
         print("1.CCD       2.CCSD")
         print("3.CCSD(T)   4.CCSD(T1Diag)   5.CCSD(T,T1Diag)")
         print("6.EOM-CCSD  7.Brueckner Doubles(BD)   8.TD(T)")
@@ -449,6 +469,7 @@ def get_HF_postHF_keyw():
     return method_keyw
 
 def get_DFT_keyw():
+    print("\n===== DFT =====\n")
     Hybrid_dict={1:"B3LYP",2:"B3P86",3:"O3LYP",4:"APFD",5:"wB97XD",\
                  6:"LC-wHPBE",7:"CAM-B3LYP",8:"wB97X",\
                  9:"MN15",10:"M11",11:"PW6B5D3",12:"M08HX",13:"M062X",14:"M052X",\
@@ -471,7 +492,7 @@ def get_DFT_keyw():
     if DFT_type == "a":
         print("1.B3LYP     2.B3P86    3.O3LYP   4.APFD(with dispersion)")
         print("5.wB97XD(with D2 dispersion)     6.Lc-wHPBE   7.CAM-B3LYP")
-        print("8.wB97X      9.MN15     10.M11    11.PW6B95D3(with D3)")
+        print("8.wB97X     9.MN15     10.M11    11.PW6B95D3(with D3)")
         print("12.M08HX    13.M062X   14.M052X")
         print("15.PBE0     16.HSE06   17.HS06   18.HS06(support third derivatives)   19.Hybrid of PBE")
         print("20.TPSSh    21.BMK     22.HISS   23.X3LYP")
@@ -565,20 +586,24 @@ def get_DFT_keyw():
     return DFT_keyw
 
 def get_Gn_CBS_keyw():
+    print("\n=====Thermodynamic Combination Method=====\n")
     print("1.Gn   2.CBS   3.W1")
     GCtype = int(input())
     if GCtype == 1:
+        print("\n***** Gn *****\n")
         print("1.G3(MP2)   2.G3(MP2)//B3LYP")
         print("3.G4        4.G4(MP2)")
         Gn_dict = {1:"G3MP2",2:"G3MP2B3",3:"G4",4:"G4MP2"}
         Gn = int(input())
         method_keyw = Gn_dict[Gn]
     elif GCtype == 2:
+        print("\n***** CBS *****\n")
         print("1.CBS-4M   2.CBS-QB3   3.CBS-APNO")
         CBS_dict = {1:"CBS-4M",2:"CBS-QB3",3:"CBS-APNO"}
         CBS = int(input())
         method_keyw = CBS_dict[CBS]
     elif GCtype == 3:
+        print("\n***** W1 *****\n")
         print("1.W1U   2.W1BD   3.W1RO")
         W1_dict = {1:"W1U",2:"W1BD",3:"W1RO"}
         W1 = int(input())
@@ -587,6 +612,7 @@ def get_Gn_CBS_keyw():
 
 
 def get_method_keyw():
+    print("\n----------Get the methods----------\n")
     print("1.Semi-empirical    2.HF and post-HF")
     print("3.DFT               4.Thermodynamic Combination Method(Gn/CBS/W1)")
     method_type = int(input())
@@ -604,6 +630,7 @@ def get_method_keyw():
 #-------------------------------------------------------------------------------
 # get basis
 def get_basis_keyw():
+    print("\n===== Built-in Basis =====\n")
     print("1.STO-3G(H-Xe)       2.Pople(H-Kr)        3.D95(H-Cl except Na, Mg)   4.D95V(H-Ne)")
     print("5.SHC(H-Cl)          6.LanL2(MB/DZ/TZ)    7.SDD(all but Fr and Ra)    8.cc-pVnZ(H-Ar,Ca-Kr)")
     print("9.def(H-Kr)          10.def2(H-La,Hf-Rn)  11.UCBS(H-Lr)               12.DG(DZ/TZ)VP")
@@ -833,7 +860,7 @@ def get_basis_keyw():
 
 
 def gen_basis_keyw():
-    num = int(input("How many basis will you use? "))
+    num = int(input("\nHow many basis will you use? "))
     elem = []
     basis = []
     for _ in range(num):
@@ -848,6 +875,7 @@ def gen_basis_keyw():
     return elem,basis
 
 def choose_basis():
+    print("\n---------- Basis ---------\n")
     basis_keyw = ""
     basis_path_keyw = ""
     elem = []
@@ -868,6 +896,7 @@ def choose_basis():
 
 #-------------------------------------------------------------------------------
 def get_SCF_keyw():
+    print("\n=========================")
     print("The SCF and Int options:")
     print("1.DIIS(Default open)   2.Fermi     3.Vshift=N   4.NoIncFock")
     print("5.Quadratic convergence(QC)        6.XQC")
@@ -929,6 +958,7 @@ def get_SCF_keyw():
 
 def get_symm_keyw():
     symm_keyw_arr = []
+    print("\n=====================")
     print("The Symmetry options:")
     print("1.NoSymm   2.Loose   3.Tight   4.VeryLoose")
     symm_dict = {1:"NoSymm",2:"symm=Loose",3:"symm=Tight",4:"symm=VeryLoose"}
@@ -940,7 +970,7 @@ def get_symm_keyw():
 
 def get_polar_keyw():
     polar_keyw = []
-    print("==================================================================================================")
+    print("\n==================================================================================================")
     print("Method Capabilities                       Polarizability               Hyperpolarizability")
     print("Analytic 3rd derivatives (HF, most DFT)   Polar (default=Analytic)     Polar (default=Analytic)")
     print("Analytic frequencies (MP2, CIS, ...)      Polar (default=Analytic)     Polar=Cubic")
@@ -968,6 +998,7 @@ def get_polar_keyw():
     return polar_keyw
 
 def get_guess_keyw():
+    print("\n==================")
     print("The guess options:")
     print("1.Harris(Default for HF/DFT)   2.Huckel(Default for CNDO, INDO, MNDO, and MINDO3)")
     print("3.AM1   4.INDO   5.core(Default for AM1,PM3, PM3MM, PM6, and PDDG)")
@@ -1030,6 +1061,7 @@ def get_guess_keyw():
     return guess_keywr
 
 def get_pop_keyw():
+    print("\n=======================")
     print("The population options:")
     print("1.none(Default for ZIndo)   2.minimal(Default)   3.regular")
     print("4.full(Default for guess=only)                   5.always")
@@ -1068,6 +1100,7 @@ def get_pop_keyw():
     return pop_keywr
 
 def get_scrf_keyw():
+    print("\n======================")
     print("The solvation options:")
     print("1.PCM(Default)   2.CPCM     3.Dipole")
     print("4.IPCM           5.SCIPCM   6.SMD")
@@ -1141,6 +1174,7 @@ ElectronegativeHalogenicity={ElectronegativeHalogenicity}"""
 
 def get_density_keyw():
     den_keywr = [0,1]
+    print("\n====================")
     print("The density options:")
     print("1.current(Default)   2.all   3.SCF   4.MP2")
     print("5.Transition=N       6.AllTransition")
@@ -1157,6 +1191,7 @@ def get_density_keyw():
     return den_keywr
 
 def get_BSSE_keyw():
+    print("\n===================")
     print("The BSSE options:")
     N = str(input("Fragment = N, N: "))
     BSSE_keywr = [0,1,2]
@@ -1171,14 +1206,18 @@ def get_BSSE_keyw():
     BSSE_keywr[1] = "NO"
     BSSE_keywr[2] = str(atom)
     return BSSE_keywr
-
     
+def none_part():
+    non_keywr = ["","NO"]
+    return non_keywr
+
 def get_general_keyw():
+    print("\n---------- Other ----------\n")
     print("1.SCF and Int   2.Symmetry     3.Polarizabilities")
     print("4.Guess         5.Population   6.Solvation")
-    print("7.Density       8.BSSE         9.111")
+    print("7.Density       8.BSSE         9.None")
     general_dict = {1:get_SCF_keyw,2:get_symm_keyw,3:get_polar_keyw,4:get_guess_keyw,\
-                    5:get_pop_keyw,6:get_scrf_keyw,7:get_density_keyw,8:get_BSSE_keyw}
+                    5:get_pop_keyw,6:get_scrf_keyw,7:get_density_keyw,8:get_BSSE_keyw,9:none_part}
     keynum = []
     general_keyw = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
     general_type = input("Enter number(SPACE split): ")
@@ -1219,10 +1258,10 @@ def generate_Gau_gjf(xyz_name):
         elem = []
         basis = []
         basis_num = 0
-        job_keyw,job_other = get_job_type()
+        job_keyw,job_other = get_job_type(xyz_name)
     elif method_type == 2 or method_type == 3:
         basis_keyw,basis_path_keyw,elem,basis,basis_num = choose_basis()
-        job_keyw,job_other = get_job_type()
+        job_keyw,job_other = get_job_type(xyz_name)
     general_keyw = get_general_keyw()
     keywr = [method_keyw,job_keyw,basis_keyw,general_keyw[0]]
     keyw = " ".join(s for s in keywr if s)
@@ -1255,6 +1294,8 @@ def generate_Gau_gjf(xyz_name):
             atom_type = atom[0]
             x, y, z = '{:10.8f}'.format(atom[1]), '{:10.8f}'.format(atom[2]), '{:10.8f}'.format(atom[3])
             file.write(f"{atom_type} {x.rjust(15)}{y.rjust(15)}{z.rjust(15)}\n")
+        if str(job_other).startswith("read"):
+            file.write(f"\n{job_other[4:]}")
         if str(job_other).startswith("GIC"):
             file.write(f"\n{job_other[3:]}")
         elif str(job_other).startswith("MOD"):
