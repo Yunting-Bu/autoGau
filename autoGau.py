@@ -6,6 +6,41 @@ sol_path = os.path.abspath(os.path.join(script_dir, '.', 'solvents.dat'))
 ECP_basis = ["Aug-cc-pVDZ-PP","Aug-cc-pVTZ-PP","Aug-cc-pVQZ-PP","cc-pVDZ-PP","cc-pVTZ-PP","cc-pVQZ-PP",\
              "LanL2MB","LanL2DZ","LanL2TZ","LanL2TZ(f)",\
              "SDD","SDDAll"]
+
+# read gjf file
+# %chk or %mem or %nproc and so an
+# #keywords
+#
+# title
+#
+# 0 1 <= charge 2S+1
+# H 1.00 1.00 1.00
+# H 0.00 0.00 0.00
+#
+# other
+def read_gjf(filename):
+    atom_date = []
+    with open(filename,'r') as file:
+        lines = file.readlines()
+        start_index = 0
+        for index, line in enumerate(lines):
+            if line.startswith('#'):
+                start_index = index
+                break
+        start_index += 4 
+        iatm = 0
+        while start_index < len(lines) and lines[start_index].strip() != '':
+            if lines[start_index][0].isdigit() :
+                charge_mul = str(lines[start_index])
+            else:
+                atom_info = lines[start_index].split()
+                atom_symbol = atom_info[0]
+                x,y,z = map(float,atom_info[1:4])
+                atom_date.append((atom_symbol,x,y,z))
+                iatm = iatm + 1
+            start_index += 1
+    return charge_mul,atom_date
+
 # read xyz file
 # 2  <= natom
 # 0 1 <= charge 2S+1
@@ -1237,10 +1272,15 @@ def get_general_keyw():
 
 #-------------------------------------------------------------------------------
 # generate Gaussian input
-def generate_Gau_gjf(xyz_name):
-    char_mul,atom_date = read_xyz(xyz_name)
-    name = xyz_name.split('.')[0] # get the name without file extension
-    gjf_name = f"{name}.gjf"
+def generate_Gau_gjf(file_name):
+    if file_name[-3:] == "gjf":
+        char_mul,atom_date = read_gjf(file_name)
+        name = file_name.split('.')[0] # get the name without file extension
+        gjf_name = f"{name}_auto.gjf"
+    elif file_name[-3:] == "xyz":
+        char_mul,atom_date = read_xyz(file_name)
+        name = file_name.split('.')[0] # get the name without file extension
+        gjf_name = f"{name}.gjf"
     chk_name = f"{name}.chk"
     nproc,mem = get_mem_nproc()
     method_keyw,method_type = get_method_keyw()
@@ -1258,10 +1298,10 @@ def generate_Gau_gjf(xyz_name):
         elem = []
         basis = []
         basis_num = 0
-        job_keyw,job_other = get_job_type(xyz_name)
+        job_keyw,job_other = get_job_type(file_name)
     elif method_type == 2 or method_type == 3:
         basis_keyw,basis_path_keyw,elem,basis,basis_num = choose_basis()
-        job_keyw,job_other = get_job_type(xyz_name)
+        job_keyw,job_other = get_job_type(file_name)
     general_keyw = get_general_keyw()
     keywr = [method_keyw,job_keyw,basis_keyw,general_keyw[0]]
     keyw = " ".join(s for s in keywr if s)
@@ -1392,7 +1432,7 @@ def generate_Gau_gjf(xyz_name):
         
 #-------------------------------------------------------------------------------
 # main code
-filename = input("Please enter the xyz file: ")
+filename = input("Please enter the xyz or gjf file: ")
 try:
     generate_Gau_gjf(filename)
 except FileNotFoundError:

@@ -1,5 +1,5 @@
 # autoGau： Gaussian输入文件生成脚本
-autoGau是一款用户给定`mol.xyz`文件，通过选择关键词来生成`mol.gjf`的Python脚本。
+autoGau是一款用户给定`mol.xyz`或简单的`mol.gjf`文件，通过选择关键词来生成`mol.gjf`的Python脚本。
 
 相对比Gauss View的图形化界面，autoGau的优点在于提供更多更加常用的关键词选项，包括大部分Gaussian内置或非内置基组与计算方法，对于初学计算的新手来说，autoGau可以通过详细的指导，方便的生成输入文件，在一定程度上可以代替GV的使用。同时，可以搭配脚本，实现批量xyz的转化。
 ## 依赖
@@ -23,8 +23,9 @@ autoGau的一些功能需要调用一定的Python库，首先，请确保自己�
  N 0.0 0.0 0.0
  N 0.0 0.0 2.0
 ```
+或者从gv里保存的简单的`mol.gjf`，只需确保有`#`开头的关键词行（无需管关键词是什么）以及**正确的电荷与自旋多重度，且最后有空行**，也可以使用`mol.gjf`做输入文件，此时产生的gjf为`mol_auto.gjf`，`_auto`补充的目的是以原来的名字做区分。
 
-`Linux`: 将准备的`mol.xyz`放入`autoGau`文件下，执行`python3 autoGau.py`，根据指示选择关键词，便在当前路径下生成相应的`mol.gjf`。
+`Linux`: 将准备的`mol.xyz`或简单的`mol.gjf`放入`autoGau`文件下，执行`python3 autoGau.py`，根据指示选择关键词，便在当前路径下生成相应的`mol.gjf`。
 
 或者使用`vim ~/.bashrc`命令打开bashrc，键入`G`使光标移到到最后一行开头，键入`shift + 4`使光标移到到行尾，键入`a`，输入回车，之后输入`alias 'Python3 /PATH/autoGau/autoGau.py'`，其中的PATH为程序安装路径，之后键入`ESC`，键入`:wq`退出，在命令行输入`source ~/.bashrc`，便可以在任意目录使用`autoGau`命令启动脚本。
 
@@ -58,7 +59,6 @@ autoGau的一些功能需要调用一定的Python库，首先，请确保自己�
 3. 增加多Link设置。
 4. 丰富关键词（目前版本将不常用、不好用的关键词删除）
 5. 增加温度、压力以及频率矫正因子的设置。
-6. 增加初始文件为`mol.gjf`。
 
 ## 部分实例
 ### 使用revTPSS泛函搭配pcSseg-1基组计算甲烷分子的NMR；
