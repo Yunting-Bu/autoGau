@@ -1180,9 +1180,9 @@ ElectronegativeHalogenicity={ElectronegativeHalogenicity}"""
             print("Enter the solvents' name, ENTER for water.")
             sol = str(input())
             if sol == "":
-                scrf_dict[9] = ""
+                scrf_dict[9] = "water"
         elif sol == "":
-            scrf_dict[9] = ""
+            scrf_dict[9] = "water"
         else:
             scrf_dict[9] = "solvent="+sol 
     for num in keynum:
@@ -1191,7 +1191,7 @@ ElectronegativeHalogenicity={ElectronegativeHalogenicity}"""
         else:
             scrf_keyw = scrf_keyw+scrf_dict[num]+","
     if len(keynum)!=1:
-        if keynum == [1,9] and scrf_dict[9] == "":
+        if keynum == [1,9] and scrf_dict[9] == "water":
             scrf_keyw = "scrf"
         else:
             scrf_keyw = scrf_keyw[:-1]
